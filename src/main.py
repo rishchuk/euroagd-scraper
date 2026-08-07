@@ -1,21 +1,21 @@
-from browser import create_driver, get_page_html
-from parser import get_products, parse_product
+from scraper import Scraper
 
 URL = "https://www.euro.com.pl/laptopy-i-netbooki.bhtml"
 
 
 def main():
-    driver = create_driver()
-    html = get_page_html(driver, URL)
+    scraper = Scraper(URL)
 
-    products = get_products(html)
-    print(f"Found {len(products)} products")
+    try:
+        products = scraper.scrape_page()
 
-    for product in products:
-        laptop = parse_product(product)
-        print(laptop)
+        print(f"Found {len(products)} products")
 
-    driver.quit()
+        for product in products:
+            print(product)
+
+    finally:
+        scraper.close()
 
 
 if __name__ == "__main__":
