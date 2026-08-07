@@ -1,4 +1,5 @@
 from scraper import Scraper
+from csv_writer import save_products_to_csv
 
 URL = "https://www.euro.com.pl/laptopy-i-netbooki.bhtml"
 
@@ -11,8 +12,7 @@ def main():
 
         print(f"Found {len(products)} products")
 
-        for product in products:
-            print(product)
+        save_products_to_csv(products, "data/laptops.csv")
 
     finally:
         scraper.close()
