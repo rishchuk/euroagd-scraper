@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup, Tag
+from models import Product
 
 
 def get_products(html: str) -> list[Tag]:
@@ -40,3 +41,14 @@ def parse_price(product: Tag) -> str:
 
     return f"{whole}.{decimal} {currency_text}"
 
+
+def parse_product(product: Tag) -> Product:
+    """
+    Convert HTML product into Product object
+    """
+    return Product(
+        title=parse_title(product),
+        price=parse_price(product),
+        image_url="",
+        specifications={}
+    )

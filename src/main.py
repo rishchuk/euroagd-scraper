@@ -1,7 +1,5 @@
-import time
-
 from browser import create_driver, get_page_html
-from parser import get_products, parse_title, parse_price
+from parser import get_products, parse_product
 
 URL = "https://www.euro.com.pl/laptopy-i-netbooki.bhtml"
 
@@ -13,10 +11,10 @@ def main():
     products = get_products(html)
     print(f"Found {len(products)} products")
 
+    print(html)
     for product in products:
-        print(parse_title(product))
-        print(parse_price(product))
-        print("-" * 40)
+        laptop = parse_product(product)
+        print(laptop)
 
     driver.quit()
 
