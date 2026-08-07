@@ -11,7 +11,6 @@ def main():
     products = get_products(html)
     print(f"Found {len(products)} products")
 
-    print(html)
     for product in products:
         laptop = parse_product(product)
         print(laptop)

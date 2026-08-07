@@ -16,7 +16,7 @@ def parse_title(product: Tag) -> str:
     Extract product title
     """
     title = product.find("a", class_="product-medium-box-intro__link")
-    if title is None:
+    if not title:
         return ""
 
     return title.get_text(strip=True)
@@ -42,6 +42,21 @@ def parse_price(product: Tag) -> str:
     return f"{whole}.{decimal} {currency_text}"
 
 
+def parse_img_url(product: Tag) -> str:
+    """
+    Extract product image URL
+    """
+    image = product.find("div", class_="product-medium-box-content__photo-wrapper")
+    if not image:
+        return ""
+
+    img = image.find("img")
+    if not image:
+        return ""
+
+    return img.get("src")
+
+
 def parse_product(product: Tag) -> Product:
     """
     Convert HTML product into Product object
@@ -49,6 +64,6 @@ def parse_product(product: Tag) -> Product:
     return Product(
         title=parse_title(product),
         price=parse_price(product),
-        image_url="",
+        image_url=parse_img_url(product),
         specifications={}
     )
