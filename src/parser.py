@@ -8,3 +8,14 @@ def get_products(html: str) -> list[Tag]:
     soup = BeautifulSoup(html, "html.parser")
     products = soup.find_all("div", class_="product-medium-box")
     return products
+
+
+def parse_title(product: Tag) -> str:
+    """
+    Extract product title
+    """
+    title = product.find("a", class_="product-medium-box-intro__link")
+    if title is None:
+        return ""
+
+    return title.get_text(strip=True)
