@@ -57,6 +57,26 @@ def parse_img_url(product: Tag) -> str:
     return img.get("src")
 
 
+def parse_specifications(product: Tag) -> dict[str, str]:
+    """
+    Extract product specifications
+    """
+    specefications = {}
+    items = product.find_all("div", "technical-attributes-list__item")
+
+    for item in items:
+        label = item.find("dt", "technical-attributes-list__label")
+
+        value = item.find("dd", "technical-attributes-list__value")
+
+        if not label or not value:
+            continue
+
+        specefications[label.get_text(strip=True)] = value.get_text(strip=True)
+
+    return specefications
+
+
 def parse_product(product: Tag) -> Product:
     """
     Convert HTML product into Product object
@@ -65,5 +85,5 @@ def parse_product(product: Tag) -> Product:
         title=parse_title(product),
         price=parse_price(product),
         image_url=parse_img_url(product),
-        specifications={}
+        specifications=parse_specifications(product)
     )
