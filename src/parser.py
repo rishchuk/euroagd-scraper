@@ -19,3 +19,24 @@ def parse_title(product: Tag) -> str:
         return ""
 
     return title.get_text(strip=True)
+
+
+def parse_price(product: Tag) -> str:
+    """
+    Extract product price
+    """
+    price_whole = product.find("span", class_="parted-price-total")
+
+    price_decimal = product.find("span", class_="parted-price-decimal")
+
+    currency = product.find("span", class_="parted-price-currency")
+
+    if not price_whole:
+        return ""
+
+    whole = price_whole.get_text(strip=True)
+    decimal = price_decimal.get_text(strip=True)
+    currency_text = currency.get_text(strip=True)
+
+    return f"{whole}.{decimal} {currency_text}"
+
