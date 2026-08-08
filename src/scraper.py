@@ -1,5 +1,5 @@
 from browser import create_driver, get_page_html
-from parser import get_products, parse_product
+from parser import get_products, parse_product, get_next_page_url
 from models import Product
 from logger import logger
 
@@ -44,16 +44,13 @@ class Scraper:
         all_products = []
         page = start_page
 
-        while True:
+        current_url = self.url
+        while current_url:
             url = self.build_page_url(page)
 
             logger.info(f"Scraping page {page}")
 
-            try:
-                html = get_page_html(self.driver, url)
-            except Exception as error:
-                print(error)
-                break
+            html = get_page_html(self.driver, url)
 
             product_cards = get_products(html)
 
@@ -65,7 +62,7 @@ class Scraper:
                 product = parse_product(card)
                 all_products.append(product)
 
-            print(f"Total products: {len(all_products)}")
+            current_url = get_next_page_url(html, current_url)
 
             page += 1
 

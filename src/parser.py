@@ -1,3 +1,5 @@
+from urllib.parse import urljoin
+
 from bs4 import BeautifulSoup, Tag
 from models import Product
 
@@ -75,6 +77,27 @@ def parse_specifications(product: Tag) -> dict[str, str]:
         specefications[label.get_text(strip=True)] = value.get_text(strip=True)
 
     return specefications
+
+
+def get_next_page_url(html: str, current_url: str) -> str | None:
+    """
+    Find the URL of the next page
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    next_link = soup.find("a", class_="list-load-more__button")
+
+    if not next_link:
+        return None
+
+    href = next_link.get("href")
+
+    if not href:
+        return None
+
+    if href.startswith("http"):
+        return href
+
+    return urljoin(current_url, href)
 
 
 def parse_product(product: Tag) -> Product:
