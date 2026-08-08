@@ -8,7 +8,7 @@ def main():
     scraper = Scraper(URL)
 
     try:
-        products = scraper.scrape_page()
+        products = scraper.scrape_all_pages()
 
         print(f"Found {len(products)} products")
 

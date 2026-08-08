@@ -27,4 +27,10 @@ def create_driver():
 def get_page_html(driver, url):
     driver.get(url)
     time.sleep(5)
+
+    current_url = driver.current_url
+
+    if current_url != url:
+        raise Exception(f"Redirect detected. Requested: {url}, got: {current_url}")
+
     return driver.page_source
