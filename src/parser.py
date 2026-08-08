@@ -53,7 +53,7 @@ def parse_img_url(product: Tag) -> str:
         return ""
 
     img = image.find("img")
-    if not image:
+    if not img:
         return ""
 
     return img.get("src")
@@ -63,20 +63,20 @@ def parse_specifications(product: Tag) -> dict[str, str]:
     """
     Extract product specifications
     """
-    specefications = {}
-    items = product.find_all("div", "technical-attributes-list__item")
+    specifications = {}
+    items = product.find_all("div", class_="technical-attributes-list__item")
 
     for item in items:
-        label = item.find("dt", "technical-attributes-list__label")
+        label = item.find("dt", class_="technical-attributes-list__label")
 
-        value = item.find("dd", "technical-attributes-list__value")
+        value = item.find("dd", class_="technical-attributes-list__value")
 
         if not label or not value:
             continue
 
-        specefications[label.get_text(strip=True)] = value.get_text(strip=True)
+        specifications[label.get_text(strip=True)] = value.get_text(strip=True)
 
-    return specefications
+    return specifications
 
 
 def get_next_page_url(html: str, current_url: str) -> str | None:

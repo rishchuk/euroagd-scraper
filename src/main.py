@@ -2,6 +2,7 @@ from scraper import Scraper
 from csv_writer import save_products_to_csv
 
 URL = "https://www.euro.com.pl/laptopy-i-netbooki.bhtml"
+CSV_PATH = "data/laptops.csv"
 
 
 def main():
@@ -12,7 +13,7 @@ def main():
 
         print(f"Found {len(products)} products")
 
-        save_products_to_csv(products, "data/laptops.csv")
+        save_products_to_csv(products, CSV_PATH)
 
     finally:
         scraper.close()
