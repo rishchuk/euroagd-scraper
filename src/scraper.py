@@ -1,6 +1,7 @@
 from browser import create_driver, get_page_html
 from parser import get_products, parse_product
 from models import Product
+from logger import logger
 
 
 class Scraper:
@@ -46,7 +47,7 @@ class Scraper:
         while True:
             url = self.build_page_url(page)
 
-            print(f"Scraping page {page}: {url}")
+            logger.info(f"Scraping page {page}")
 
             try:
                 html = get_page_html(self.driver, url)
